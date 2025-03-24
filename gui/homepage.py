@@ -901,8 +901,9 @@ class HomePageApp(ctk.CTk):
         
         # Catégorie
         categories = self.db.get_categories()
-        category_names = [cat['category_name'] for cat in categories if 'is_income' in cat and cat['is_income']]
-        
+        category_names = [cat['category_name'] for cat in categories]
+        category_names = list(set(category_names))  # Supprimer les doublons
+
         category_frame = ctk.CTkFrame(form_card, fg_color="transparent")
         category_frame.pack(fill="x", padx=20, pady=15)
         
@@ -1074,7 +1075,7 @@ class HomePageApp(ctk.CTk):
         # Effectuer le retrait
         success = self.db.add_transaction(
             account_id, 
-            -amount, 
+            amount, 
             description, 
             2,  # Type retrait
             category_id
@@ -1332,6 +1333,7 @@ class HomePageApp(ctk.CTk):
         # Filtrer pour ne garder que les catégories de dépenses (à adapter selon votre structure)
         expense_categories = [cat for cat in categories if cat['category_name'] not in ['Revenu']]
         category_names = [cat['category_name'] for cat in expense_categories]
+        category_names = list(set(category_names))  # Supprimer les doublons
         
         category_frame = ctk.CTkFrame(form_card, fg_color="transparent")
         category_frame.pack(fill="x", padx=20, pady=15)
