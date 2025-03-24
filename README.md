@@ -30,7 +30,6 @@ Budget Buddy est une application de gestion financière développée avec `custo
 
 ## Comptes et Transactions
 <img src="img/compte.png" width="500" />
-<img src="img/tableau.png" width="500" />
 
 ## Dépôts, Retraits et Transferts
 <img src="img/depot.png" width="500" />
