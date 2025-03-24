@@ -1237,7 +1237,7 @@ class HomePageApp(ctk.CTk):
         
         page_title = ctk.CTkLabel(
             title_frame, 
-            text="⬇️ Retirer de l'argent",
+            text="Retirer de l'argent",
             font=("Helvetica", 28, "bold"),
             text_color=self.COLORS["text_dark"]
         )
@@ -1670,12 +1670,13 @@ class HomePageApp(ctk.CTk):
             trans_frame.pack(fill="x", padx=15, pady=5)
             
             # Déterminer la couleur selon le type
-            if transaction['amount'] < 0:
-                amount_color = "#F44336"  # Rouge pour les dépenses
-                amount_prefix = ""
+            if transaction['type_name'] == 'Retrait':  # Vérifie si c'est une dépense
+               amount_color = "#F44336"  # Rouge pour les retraits
+               amount_prefix = "-"  # Signe négatif pour les dépenses
             else:
                 amount_color = "#4CAF50"  # Vert pour les revenus
-                amount_prefix = "+"
+                amount_prefix = "+"  # Signe positif pour les revenus
+            
             
             # Ligne principale avec date et description
             main_line = ctk.CTkFrame(trans_frame, fg_color="transparent")
