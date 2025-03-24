@@ -72,16 +72,16 @@ class Database:
             # Insérer quelques catégories par défaut
             cursor.execute("""
                 INSERT IGNORE INTO categories (category_name, description) VALUES
-                    ('Loisir', 'Dépenses liées aux activités de loisir'),
-                    ('Repas', 'Dépenses alimentaires'),
-                    ('Transport', 'Dépenses liées aux déplacements'),
-                    ('Logement', 'Dépenses liées au logement'),
-                    ('Santé', 'Dépenses médicales'),
-                    ('Vêtements', 'Achats de vêtements'),
-                    ('Éducation', 'Frais de scolarité et matériel éducatif'),
+                    ('Loisir', 'Depenses liees aux activités de loisir'),
+                    ('Repas', 'Depenses alimentaires'),
+                    ('Transport', 'Depenses liees aux déplacements'),
+                    ('Logement', 'Depenses liees au logement'),
+                    ('Sante', 'Depenses medicales'),
+                    ('Vetements', 'Achats de vetements'),
+                    ('Education', 'Frais de scolarite et materiel educatif'),
                     ('Revenu', 'Sources de revenu'),
                     ('Pot-de-vin', 'Cadeaux et pourboires'),
-                    ('Autre', 'Autres dépenses')
+                    ('Autre', 'Autres depenses')
             """)
             
             # Table des types de transactions
@@ -365,6 +365,11 @@ class Database:
                     query += " ORDER BY t.transaction_date DESC"
             else:
                 query += " ORDER BY t.transaction_date DESC"
+
+            # Ajout de la limite si spécifiée
+            if filters and 'limit' in filters:
+                query += " LIMIT %s"
+                params.append(filters['limit'])
             
             cursor.execute(query, params)
             
@@ -425,12 +430,17 @@ class Database:
             print(f"Error getting transaction types: {e}")
             return []
     
-    def add_transaction(self, account_id, reference, description, amount, transaction_type, category_id=None, to_account_id=None):
+    def add_transaction(self, account_id, amount, description,  transaction_type, category_id=None, to_account_id=None, reference=None):
         """
         Add a new transaction.
         """
         try:
             conn, cursor = self._get_connection()
+
+            # Générer une référence si non fournie
+            if reference is None:
+               reference = f"TRX-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+        
             
             cursor.execute("START TRANSACTION")
             
@@ -526,6 +536,23 @@ class Database:
                 conn.close()
             return False, f"Erreur lors de la transaction: {e}"
     
+    def get_account_balance(self, account_id):
+        """
+        Récupère le solde actuel d'un compte
+        """
+        try:
+            conn, cursor = self._get_connection()
+            cursor.execute("SELECT balance FROM accounts WHERE account_id = %s", (account_id,))
+            result = cursor.fetchone()
+            conn.close()
+            
+            if result:
+                return Decimal(str(result['balance']))
+            return Decimal('0.00')
+        except Exception as e:
+            print(f"Error getting account balance: {e}")
+            return Decimal('0.00')
+
     def get_monthly_summary(self, user_id):
         """
         Get monthly summary of income and expenses for a user.
@@ -614,7 +641,31 @@ class Database:
         except Exception as e:
             print(f"Error getting category summary: {e}")
             return {}
-        
+    
+    def add_external_transfer(self, account_id, amount, beneficiary, iban, description):
+        """Enregistre un transfert externe"""
+        try:
+            conn, cursor = self._get_connection()
+            
+            # 1. Débit du compte
+            cursor.execute("UPDATE accounts SET balance = balance - %s WHERE account_id = %s", 
+                        (amount, account_id))
+            
+            # 2. Enregistrement spécial
+            cursor.execute("""
+                INSERT INTO external_transfers 
+                (account_id, amount, beneficiary, iban, description, status)
+                VALUES (%s, %s, %s, %s, %s, 'PENDING')
+            """, (account_id, amount, beneficiary, iban, description))
+            
+            conn.commit()
+            return True, "Transfert programmé"
+        except Exception as e:
+            conn.rollback()
+            return False, str(e)
+        finally:
+            conn.close()
+    
     def get_alerts(self, user_id):
         """
         Get alerts for a user.
@@ -718,7 +769,37 @@ class Database:
                 conn.rollback()
                 conn.close()
             return False, f"Erreur lors de la création du paiement programmé: {e}"
-    
+        
+    def get_expenses_by_category(self, user_id):
+        """
+        Récupère le total des dépenses par catégorie pour un utilisateur donné.
+        """
+        try:
+            conn, cursor = self._get_connection()
+            
+            query = """
+                SELECT c.category_name, SUM(t.amount) AS total
+                FROM transactions t
+                JOIN accounts a ON t.account_id = a.account_id
+                JOIN categories c ON t.category_id = c.category_id
+                WHERE a.user_id = %s
+                AND t.type_id IN (2, 3)  # 2 = Retrait, 3 = Transfert
+                GROUP BY c.category_name
+                ORDER BY total DESC
+            """
+            
+            cursor.execute(query, (user_id,))
+            result = cursor.fetchall()
+            
+            expenses = [{"category": row["category_name"], "amount": row["total"]} for row in result] if result else []
+            
+            conn.close()
+            return expenses
+        
+        except Exception as e:
+            print(f"Erreur lors de la récupération des dépenses par catégorie: {e}")
+            return []
+
     def process_due_scheduled_payments(self):
         """
         Process all due scheduled payments.

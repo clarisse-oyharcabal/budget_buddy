@@ -15,7 +15,7 @@ from data.database import *
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from .config import COLORS
-from .homepage import HomePageApp
+from gui.homepage import HomePageApp
 
 class LoginApp(ctk.CTk):
     def __init__(self):
@@ -119,7 +119,7 @@ class LoginApp(ctk.CTk):
             self.login_error_label.configure(text="Please fill in all fields.")
             return
             
-        success, message, user_data = self.db.login_user(email, password)
+        success, message, user_data= self.db.login_user(email, password)
         if success:
             self.destroy()  # Ferme la fenêtre de login
             home_app = HomePageApp(user_data)  # Lance la page d'accueil
