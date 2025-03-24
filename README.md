@@ -40,7 +40,7 @@ Budget Buddy est une application de gestion financière développée avec `custo
 ## Catégories
 <img src="img/categorieszenbank.png" width="500" />
 
-## Utilisateurs, Catégories et Transactions sur MySQL
+## Utilisateurs (cryptage mots de passe), Catégories et Transactions sur MySQL
 <img src="img/usersMySQL.png" width="500" />
 <img src="img/categoriesMysql.png" width="500" />
 <img src="img/transactionMySQL.png" width="500" />
