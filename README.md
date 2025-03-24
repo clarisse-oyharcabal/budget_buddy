@@ -10,7 +10,43 @@ Budget Buddy est une application de gestion financière développée avec `custo
 - 🔍 **Recherche et tri avancés** des transactions
 - 📈 **Tableaux de bord interactifs** avec graphiques et indicateurs financiers
 - 🛠 **Personnalisation des catégories** avec icônes monochromes
-- 🎨 **Interface zen et épurée** 
+- 🎨 **Interface zen et épurée**
+
+
+# Voici les images de mon projet :
+
+## Connexion et Inscription
+![Login](img/login.png)
+![Register](img/register.png)
+
+## Erreurs
+![Fields](img/fields.png)
+![Mauvais email](img/wrongmail.png)
+![Mot de passe faible](img/passwordweak.png)
+![Erreur](img/wrong.png)
+
+## Dashboard
+![Dashboard](img/dashboard.png)
+
+## Comptes et Transactions
+![Compte](img/compte.png)
+![Tableau des transactions](img/tableau.png)
+
+## Dépôts, Retraits et Transferts
+![Dépôt](img/depot.png)
+![Retrait Success](img/retraitsuccess.png)
+![Transfert](img/transfert.png)
+
+## Filtrage des Transactions
+![Filtres](img/filtres.png)
+
+## Catégories
+![Categories Zenbank](img/categorieszenbank.png)
+
+## Utilisateurs, Catégories et Transactions sur MySQL
+![Users MySQL](img/usersMySQL.png)
+![Categories MySQL](img/categoriesMysql.png)
+![Transaction MySQL](img/transactionMySQL.png)
 
 ## 🛠 Technologies utilisées
 
