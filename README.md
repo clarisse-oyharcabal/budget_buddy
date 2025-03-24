@@ -16,37 +16,37 @@ Budget Buddy est une application de gestion financière développée avec `custo
 # Voici les images de mon projet :
 
 ## Connexion et Inscription
-![Login](img/login.png)
-![Register](img/register.png)
+<img src="img/login.png" width="300" />
+<img src="img/register.png" width="300" />
 
 ## Erreurs
-![Fields](img/fields.png)
-![Mauvais email](img/wrongmail.png)
-![Mot de passe faible](img/passwordweak.png)
-![Erreur](img/wrong.png)
+<img src="img/fields.png" width="300" />
+<img src="img/wrongmail.png" width="300" />
+<img src="img/passwordweak.png" width="300" />
+<img src="img/wrong.png" width="300" />
 
 ## Dashboard
-![Dashboard](img/dashboard.png)
+<img src="img/dashboard.png" width="300" />
 
 ## Comptes et Transactions
-![Compte](img/compte.png)
-![Tableau des transactions](img/tableau.png)
+<img src="img/compte.png" width="300" />
+<img src="img/tableau.png" width="300" />
 
 ## Dépôts, Retraits et Transferts
-![Dépôt](img/depot.png)
-![Retrait Success](img/retraitsuccess.png)
-![Transfert](img/transfert.png)
+<img src="img/depot.png" width="300" />
+<img src="img/retraitsuccess.png" width="300" />
+<img src="img/transfert.png" width="300" />
 
 ## Filtrage des Transactions
-![Filtres](img/filtres.png)
+<img src="img/filtres.png" width="300" />
 
 ## Catégories
-![Categories Zenbank](img/categorieszenbank.png)
+<img src="img/categorieszenbank.png" width="300" />
 
 ## Utilisateurs, Catégories et Transactions sur MySQL
-![Users MySQL](img/usersMySQL.png)
-![Categories MySQL](img/categoriesMysql.png)
-![Transaction MySQL](img/transactionMySQL.png)
+<img src="img/usersMySQL.png" width="300" />
+<img src="img/categoriesMysql.png" width="300" />
+<img src="img/transactionMySQL.png" width="300" />
 
 ## 🛠 Technologies utilisées
 
