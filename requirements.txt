@@ -1,0 +1,4 @@
+Pillow
+customtkinter
+matplotlib
+mysql-connector-python
