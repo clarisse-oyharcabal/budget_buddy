@@ -20,9 +20,9 @@ class HomePageApp(ctk.CTk):
     def load_images(self):
         """Charge les images de fond et icônes."""
         self.images = {
-            "background": ctk.CTkImage(Image.open("img/login_background.png"), size=(800, 600))
+            "background": ctk.CTkImage(Image.open("img/login_background.png"), size=(800, 600)),
+            "content_background": ctk.CTkImage(Image.open("img/background.png"), size=(800, 600))
         }
-           
    
 
     def apply_background(self, parent, image_key="background"):
@@ -31,82 +31,157 @@ class HomePageApp(ctk.CTk):
         self.bg_label.place(relwidth=1, relheight=1)
     
     def show_home_screen(self, user_data):
-        """Affiche la page d'accueil avec un design cohérent."""
+        """Affiche la page d'accueil après connexion avec graphiques et transactions."""
         self.clear_screen()
         self.apply_background(self)
-        
+
+        # Appliquer le même fond d'écran que login
+        self.bg_label = ctk.CTkLabel(self, image=self.images["background"])
+        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+
         # Barre latérale
-        self.sidebar = ctk.CTkFrame(self, width=250, fg_color=COLORS["bamboo_dark"])
-        self.sidebar.pack(side="left", fill="y", padx=10, pady=10)
-        
+        self.sidebar = ctk.CTkFrame(self, width=250, fg_color=COLORS["bamboo_dark"],
+                           bg_color="#07290B")
+        self.sidebar.pack(side="left", fill="y")
+
+
         # Profil utilisateur
-        self.profile_label = ctk.CTkLabel(self.sidebar, text=f"{user_data['first_name']} {user_data['last_name']}",
-                                        font=("Helvetica", 16, "bold"), text_color="white")
+        self.profile_label = ctk.CTkLabel(self.sidebar, text=f"{user_data['first_name']} {user_data['last_name']}", font=("Helvetica", 16))
         self.profile_label.pack(pady=20)
 
-        # Boutons de navigation
-        buttons = [
-            ("Accueil", self.show_home_content),
-            ("Comptes", self.show_accounts),
-            ("Transactions", self.show_transactions),
-            ("Déposer", self.show_deposit_screen),
-            ("Retirer", self.show_withdraw_screen),
-            ("Transférer", self.show_transfer_screen),
-            ("Déconnexion", self.logout)
-        ]
+        # Boutons de navigation avec couleur verte lorsque possible
+        self.home_button = ctk.CTkButton(self.sidebar, text="Accueil", fg_color=COLORS["moss"], hover_color=COLORS["bamboo_dark"], command=lambda: self.show_home_content(user_data))
+        self.home_button.pack(pady=10)
 
-        for text, command in buttons:
-            ctk.CTkButton(self.sidebar, text=text, fg_color=COLORS["moss"], hover_color=COLORS["forest"],
-                        command=lambda cmd=command: cmd(user_data)).pack(pady=5, padx=10, fill="x")
-        
+        self.accounts_button = ctk.CTkButton(self.sidebar, text="Comptes", fg_color=COLORS["moss"], hover_color=COLORS["bamboo_dark"], command=lambda: self.show_accounts(user_data))
+        self.accounts_button.pack(pady=10)
+
+        self.transactions_button = ctk.CTkButton(self.sidebar, text="Transactions", fg_color=COLORS["moss"], hover_color=COLORS["bamboo_dark"], command=lambda: self.show_transactions(user_data))
+        self.transactions_button.pack(pady=10)
+
+        self.deposit_button = ctk.CTkButton(self.sidebar, text="Déposer", fg_color=COLORS["forest"], hover_color=COLORS["bamboo_dark"], command=lambda: self.show_deposit_screen(user_data))
+        self.deposit_button.pack(pady=10)
+
+        self.withdraw_button = ctk.CTkButton(self.sidebar, text="Retirer", fg_color=COLORS["forest"], hover_color=COLORS["bamboo_dark"], command=lambda: self.show_withdraw_screen(user_data))
+        self.withdraw_button.pack(pady=10)
+
+        self.transfer_button = ctk.CTkButton(self.sidebar, text="Transférer", fg_color=COLORS["forest"], hover_color=COLORS["bamboo_dark"], command=lambda: self.show_transfer_screen(user_data))
+        self.transfer_button.pack(pady=10)
+
+        self.logout_button = ctk.CTkButton(self.sidebar, text="Déconnexion", fg_color=COLORS["bamboo_dark"], hover_color=COLORS["bamboo_medium"], corner_radius=15, command=self.logout)
+        self.logout_button.pack(pady=10)
+
         # Contenu principal
-        self.main_content = ctk.CTkFrame(self, fg_color=COLORS["bamboo_light"], corner_radius=15)
-        self.main_content.pack(side="right", fill="both", expand=True, padx=20, pady=20)
-        
+        self.main_content = ctk.CTkFrame(self, fg_color="#07290B", bg_color="#DFD4C1", corner_radius=15)
+        self.main_content.pack(side="right", fill="both", expand=True)
+
+        # Afficher le contenu par défaut (Accueil)
         self.show_home_content(user_data)
+    
 
 
 
     def show_home_content(self, user_data):
-        """Affiche le contenu de la page d'accueil."""
+        """Affiche le contenu de la page d'accueil avec une image en arrière-plan."""
         self.clear_main_content()
-        self.apply_background(self.main_content)
-        
-        ctk.CTkLabel(self.main_content, text=f"Bienvenue {user_data['first_name']} !",
-                    font=("Helvetica", 24, "bold"), text_color=COLORS["forest"]).pack(pady=20)
-        
-        # Conteneur du solde total
-        summary_frame = ctk.CTkFrame(self.main_content, fg_color=COLORS["moss"], corner_radius=15)
-        summary_frame.pack(pady=20, padx=20, fill="x")
+        self.apply_background(self.main_content, "content_background")
 
+        # Bienvenue
+        self.welcome_label = ctk.CTkLabel(self.main_content, text=f"Bienvenue {user_data['first_name']} !", font=("Helvetica", 24), text_color=COLORS["bamboo_dark"])
+        self.welcome_label.pack(pady=20)
+
+        # Conteneur vert pour le solde total et résumé
+        self.summary_container = ctk.CTkFrame(self.main_content, fg_color=COLORS["moss"], corner_radius=15)
+        self.summary_container.pack(pady=20, padx=20, fill="x")
+
+        # Afficher le solde total
         accounts = self.db.get_user_accounts(user_data['user_id'])
         total_balance = sum(account['balance'] for account in accounts)
-        ctk.CTkLabel(summary_frame, text=f"Solde total: {total_balance}€", font=("Helvetica", 18), text_color="white").pack(pady=10)
-        
+        self.total_balance_label = ctk.CTkLabel(self.summary_container,
+                                                text=f"Solde total: {total_balance}€",
+                                                font=("Helvetica", 18),
+                                                text_color="white")
+        self.total_balance_label.pack(pady=10)
+
+        # Afficher les alertes non lues
+        alerts = self.db.get_alerts(user_data['user_id'])
+        unread_alerts = [alert for alert in alerts if not alert['is_read']]
+
+        if unread_alerts:
+            self.alerts_label = ctk.CTkLabel(self.summary_container, text="Alertes non lues :",
+                                            font=("Helvetica", 18), text_color="white")
+            self.alerts_label.pack(pady=10)
+
+            for alert in unread_alerts:
+                alert_text = f"{alert['message']} - {alert['created_at']}"
+                alert_label = ctk.CTkLabel(self.summary_container, text=alert_text,
+                                        font=("Helvetica", 14), text_color="white")
+                alert_label.pack()
+
+        # Afficher les paiements programmés
+        for account in accounts:
+            scheduled_payments = self.db.get_scheduled_payments(account['account_id'])
+            if scheduled_payments:
+                self.payments_label = ctk.CTkLabel(self.main_content,
+                                                text=f"Paiements programmés pour {account['account_name']} :",
+                                                font=("Helvetica", 18), text_color="black")
+                self.payments_label.pack(pady=10)
+
+                for payment in scheduled_payments:
+                    payment_text = f"{payment['description']} - {payment['amount']}€ - Prochain paiement : {payment['next_date']}"
+                    payment_label = ctk.CTkLabel(self.main_content, text=payment_text,
+                                                font=("Helvetica", 14), text_color="black")
+                    payment_label.pack()
+
+        # Afficher le résumé mensuel
+        monthly_summary = self.db.get_monthly_summary(user_data['user_id'])
+        if monthly_summary:
+            self.summary_label = ctk.CTkLabel(self.main_content, text="Résumé mensuel :",
+                                            font=("Helvetica", 18), text_color="black")
+            self.summary_label.pack(pady=10)
+
+            for month, data in monthly_summary.items():
+                summary_text = f"{month} - Revenus: {data['income']}€, Dépenses: {data['expenses']}€, Solde: {data['net']}€"
+                summary_label = ctk.CTkLabel(self.main_content, text=summary_text,
+                                            font=("Helvetica", 14), text_color="black")
+                summary_label.pack()
+
+        # Graphique des dépenses
         self.display_expense_chart(user_data['user_id'])
+
+        # Transactions récentes
         self.display_recent_transactions(user_data['user_id'])
 
 
+    
     def show_accounts(self, user_data):
         """Affiche les comptes de l'utilisateur."""
         self.clear_main_content()
-        self.apply_background(self.main_content)
+        self.apply_background(self.main_content, "content_background")
         
-        ctk.CTkLabel(self.main_content, text="Vos Comptes", font=("Helvetica", 20, "bold"), text_color=COLORS["forest"]).pack(pady=20)
+        # Titre
+        self.accounts_label = ctk.CTkLabel(self.main_content, text="Vos Comptes", font=("Helvetica", 20))
+        self.accounts_label.pack(pady=20)
+        
+        # Récupérer les comptes
         accounts = self.db.get_user_accounts(user_data['user_id'])
-        
+        print(f"Comptes récupérés : {accounts}")  # Debugging
+    
         if not accounts:
-            ctk.CTkLabel(self.main_content, text="Aucun compte trouvé.", font=("Helvetica", 14)).pack()
-        else:
-            for account in accounts:
-                account_info = f"{account['account_name']} - Solde: {account['balance']}€"
-                ctk.CTkLabel(self.main_content, text=account_info, font=("Helvetica", 14)).pack(pady=5)
-
+            no_accounts_label = ctk.CTkLabel(self.main_content, text="Aucun compte trouvé.", font=("Helvetica", 14))
+            no_accounts_label.pack()
+            return
         
+        # Afficher les comptes
+        for account in accounts:
+            account_info = f"{account['account_name']} - Solde: {account['balance']}€"
+            account_label = ctk.CTkLabel(self.main_content, text=account_info, font=("Helvetica", 14))
+            account_label.pack(pady=5)
+    
     def show_transactions(self, user_data):
         """Affiche les transactions récentes avec des filtres intégrés."""
         self.clear_main_content()
-       
+        self.apply_background(self.main_content, "content_background")
         
         # Titre
         self.transactions_label = ctk.CTkLabel(self.main_content, text="Transactions Récentes", font=("Helvetica", 20))
@@ -193,37 +268,41 @@ class HomePageApp(ctk.CTk):
     def display_expense_chart(self, user_id):
         """Affiche un graphique des dépenses par catégorie."""
         category_data = self.db.get_category_summary(user_id)
+        print(f"Données du graphique : {category_data}")  # Debugging
         
         if not category_data:
-            ctk.CTkLabel(self.main_content, text="Aucune donnée disponible.", font=("Helvetica", 14)).pack()
+            no_data_label = ctk.CTkLabel(self.main_content, text="Aucune donnée disponible pour le graphique.", font=("Helvetica", 14))
+            no_data_label.pack()
             return
         
+        # Créer le graphique
         categories = list(category_data.keys())
         amounts = list(category_data.values())
         
         fig, ax = plt.subplots()
         ax.pie(amounts, labels=categories, autopct='%1.1f%%', startangle=90)
-        ax.axis('equal')
+        ax.axis('equal')  # Cercle parfait
         
+        # Intégrer le graphique dans l'interface
         canvas = FigureCanvasTkAgg(fig, master=self.main_content)
         canvas.draw()
         canvas.get_tk_widget().pack(pady=20)
-
     
     def display_recent_transactions(self, user_id):
-        """Affiche les transactions récentes."""
+        """Affiche les transactions récentes de l'utilisateur."""
         accounts = self.db.get_user_accounts(user_id)
         for account in accounts:
             transactions = self.db.get_account_transactions(account['account_id'])
-            for transaction in transactions[:5]:
+            for transaction in transactions[:5]:  # Affiche les 5 plus récentes
                 transaction_info = f"{transaction['formatted_date']} - {transaction['description']}: {transaction['amount']}€"
-                ctk.CTkLabel(self.main_content, text=transaction_info, font=("Helvetica", 14)).pack()
-
+                transaction_label = ctk.CTkLabel(self.main_content, text=transaction_info)
+                transaction_label.pack()
     
     def show_deposit_screen(self, user_data):
         """Affiche l'interface pour déposer de l'argent avec un design moderne et zen."""
         self.clear_main_content()
-       
+        self.apply_background(self.main_content, "content_background")
+        
         self.deposit_label = ctk.CTkLabel(self.main_content, text="Déposer de l'argent", font=("Helvetica", 24, "bold"), text_color=COLORS["moss"])
         self.deposit_label.pack(pady=20)
         
@@ -265,8 +344,9 @@ class HomePageApp(ctk.CTk):
     def show_withdraw_screen(self, user_data):
         """Affiche l'interface pour retirer de l'argent."""
         self.clear_main_content()
-       
-        self.withdraw_label = ctk.CTkLabel(self.main_content, text="Retirer de l'argent", font=("Helvetica", 24, "bold"), text_color=COLORS["moss"])
+        self.apply_background(self.main_content, "content_background")
+        
+        self.withdraw_label = ctk.CTkLabel(self.main_content, text="Retirer de l'argent", font=("Helvetica", 20))
         self.withdraw_label.pack(pady=20)
         
         self.amount_entry = ctk.CTkEntry(self.main_content, placeholder_text="Montant", placeholder_text_color="#606060",text_color="black", width=350, height=50, fg_color=COLORS["bamboo_light"], corner_radius=10, bg_color="#DFD4C1")
@@ -316,9 +396,9 @@ class HomePageApp(ctk.CTk):
     def show_transfer_screen(self, user_data):
         """Affiche l'interface pour transférer de l'argent."""
         self.clear_main_content()
-       
+        self.apply_background(self.main_content, "content_background")
         
-        self.transfer_label = ctk.CTkLabel(self.main_content, text="Transférer de l'argent", font=("Helvetica", 24, "bold"), text_color=COLORS["moss"])
+        self.transfer_label = ctk.CTkLabel(self.main_content, text="Transférer de l'argent", font=("Helvetica", 20))
         self.transfer_label.pack(pady=20)
         
         self.amount_entry = ctk.CTkEntry(self.main_content, placeholder_text="Montant",placeholder_text_color="#606060",text_color="black", width=350, height=50, fg_color=COLORS["bamboo_light"], corner_radius=10, bg_color="#DFD4C1")

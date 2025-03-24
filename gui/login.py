@@ -52,7 +52,7 @@ class LoginApp(ctk.CTk):
             self, fg_color="#07290B", bg_color="#DFD4C1",
             width=450, height=550, corner_radius=20
         )
-        self.login_container.place(relx=0.03, rely=0.56, anchor="w")
+        self.login_container.place(relx=0.03, rely=0.58, anchor="w")
 
         self.subtitle_label = ctk.CTkLabel(
             self.login_container, text="Let's connect !",
