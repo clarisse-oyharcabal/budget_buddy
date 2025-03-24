@@ -16,37 +16,37 @@ Budget Buddy est une application de gestion financière développée avec `custo
 # Voici les images de mon projet :
 
 ## Connexion et Inscription
-<img src="img/login.png" width="300" />
-<img src="img/register.png" width="300" />
+<img src="img/login.png" width="500" />
+<img src="img/register.png" width="500" />
 
 ## Erreurs
-<img src="img/fields.png" width="300" />
-<img src="img/wrongmail.png" width="300" />
-<img src="img/passwordweak.png" width="300" />
-<img src="img/wrong.png" width="300" />
+<img src="img/fields.png" width="500" />
+<img src="img/wrongmail.png" width="500" />
+<img src="img/passwordweak.png" width="500" />
+<img src="img/wrong.png" width="500" />
 
 ## Dashboard
-<img src="img/dashboard.png" width="300" />
+<img src="img/dashboard.png" width="500" />
 
 ## Comptes et Transactions
-<img src="img/compte.png" width="300" />
-<img src="img/tableau.png" width="300" />
+<img src="img/compte.png" width="500" />
+<img src="img/tableau.png" width="500" />
 
 ## Dépôts, Retraits et Transferts
-<img src="img/depot.png" width="300" />
-<img src="img/retraitsuccess.png" width="300" />
-<img src="img/transfert.png" width="300" />
+<img src="img/depot.png" width="500" />
+<img src="img/retraitsuccess.png" width="500" />
+<img src="img/transfert.png" width="500" />
 
 ## Filtrage des Transactions
-<img src="img/filtres.png" width="300" />
+<img src="img/filtres.png" width="500" />
 
 ## Catégories
-<img src="img/categorieszenbank.png" width="300" />
+<img src="img/categorieszenbank.png" width="500" />
 
 ## Utilisateurs, Catégories et Transactions sur MySQL
-<img src="img/usersMySQL.png" width="300" />
-<img src="img/categoriesMysql.png" width="300" />
-<img src="img/transactionMySQL.png" width="300" />
+<img src="img/usersMySQL.png" width="500" />
+<img src="img/categoriesMysql.png" width="500" />
+<img src="img/transactionMySQL.png" width="500" />
 
 ## 🛠 Technologies utilisées
 
