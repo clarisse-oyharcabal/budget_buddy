@@ -88,7 +88,7 @@ class LoginApp(ctk.CTk):
         self.login_button.pack(pady=20, padx=20)
 
         self.register_label = ctk.CTkLabel(
-            self.login_container, text="No account? Create one!",
+            self.login_container, text="No account? Join us!",
             font=("Helvetica", 13), text_color="green"
         )
         self.register_label.pack(pady=10, padx=20)
