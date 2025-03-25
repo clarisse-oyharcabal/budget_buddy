@@ -19,7 +19,7 @@ Budget Buddy est une application de gestion financière développée avec `custo
 <img src="img/login.png" width="500" />
 <img src="img/register.png" width="500" />
 
-## Erreurs
+## Erreurs (weak password, fields, wrong e-mail format...)
 <img src="img/fields.png" width="500" />
 <img src="img/fieldsRegister.png" width="500" />
 <img src="img/wrongmail.png" width="500" />
