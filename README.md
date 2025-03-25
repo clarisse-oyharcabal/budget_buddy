@@ -9,8 +9,7 @@ Budget Buddy est une application de gestion financière développée avec `custo
 - 📊 **Affichage des transactions** (dépenses et revenus)
 - 🔍 **Recherche et tri avancés** des transactions
 - 📈 **Tableaux de bord interactifs** avec graphiques et indicateurs financiers
-- 🛠 **Personnalisation des catégories** avec icônes monochromes
-- 🎨 **Interface zen et épurée**
+- 🎨 **Interface originale, zen et épurée**
 
 
 # Voici les images de mon projet :
