@@ -1,6 +1,6 @@
 # Budget Buddy
 
-Budget Buddy est une application de gestion financière développée avec `customtkinter` pour l'interface graphique et une base de données MySQL pour le stockage des données. Cette application permet aux utilisateurs de suivre leurs finances, d'ajouter des transactions (dépenses et revenus), et d'afficher des statistiques sous forme de graphiques.
+Budget Buddy est une application de gestion financière développée avec `customtkinter` pour l'interface graphique et une base de données `MySQL` pour le stockage des données. Cette application permet aux utilisateurs de suivre leurs finances, d'ajouter des transactions (dépenses et revenus), et d'afficher des statistiques sous forme de graphiques.
 
 ## 🚀 Fonctionnalités
 
